@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% render 'partials/header.liquid', client: client, user: user %}
+</head>
+
+<body class="bg-primary-100 font-body text-white">
+    {% render 'partials/navbar.liquid', client: client, user: user %}
+    <div class="w-10/12 mx-auto">
+        <!-- Purchase Box for items -->
+        <div
+            class="modal2 opacity-0 z-50 pointer-events-none fixed w-full h-full top-0 left-0 flex duration-300 items-center justify-center">
+            <div class="modal2-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+            <div class="modal2-container bg-primary-700 md:w-4/12 mx-auto rounded-xl shadow-xl z-50 overflow-y-auto">
+                <div class="modal2-content text-white pt-5 text-left px-6">
+                    <div class="flex items-center pb-3">
+                        <div class="flex items-center mr-auto">
+                            <p class="text-2xl font-semibold">Purchase <b class="text-red-300" id="item">NaN</b></p>
+                        </div>
+                        <div class="ml-auto flex justify-end mr-2">
+                            <button onclick="closemodal2()"
+                                class="modal-close text-red-600 rounded-lg duration-200 hover:text-red-800 text-lg"><i
+                                    class="fa-solid fa-x"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mt-5 ml-3">
+                        <div class="justify-content mr-10">
+                            <p class="text-xl font-semibold mb-2">Game username:</p>
+                            <input class="bg-primary-200 rounded-lg shadow-md outline-none px-6 py-3 w-full"
+                                placeholder="Cap sensitive" id="usernameItem" />
+                            <p class="text-gray-400 text-base">Make sure you have this account email verified to
+                                continue..</p>
+                            <div class="mt-3">
+                                <a onclick="purchaseItem(document.getElementById('item').innerText)"
+                                    class="rounded-lg cursor-pointer font-semibold text-primary-400 hover:text-primary-600 duration-300">Continue
+                                    purchase for $<b id="Itemprice">NaN</b>&nbsp;<i
+                                        class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <p class="ml-9 mt-5 mb-5 text-gray-400 font-semibold">Press ESC to close</p>
+            </div>
+        </div>
+        <!-- Purchase Box for Giftcodes -->
+        <div
+            class="modal3 opacity-0 z-50 pointer-events-none fixed w-full h-full top-0 left-0 flex duration-300 items-center justify-center">
+            <div class="modal3-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+            <div class="modal3-container bg-primary-700 md:w-4/12 mx-auto rounded-xl shadow-xl z-50 overflow-y-auto">
+                <div class="modal2-content text-white pt-5 text-left px-6">
+                    <div class="flex items-center pb-3">
+                        <div class="flex items-center mr-auto">
+                            <p class="text-2xl font-semibold">Purchase <b class="text-red-200">Random Giftcode</b>
+                            </p>
+                        </div>
+                        <div class="ml-auto flex justify-end mr-2">
+                            <button onclick="closemodal3()"
+                                class="modal-close text-red-600 rounded-lg duration-200 hover:text-red-800 text-lg"><i
+                                    class="fa-solid fa-x"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mt-5 ml-3">
+                        <div class="justify-content mr-10">
+                            <p class="text-xl font-semibold mb-2">Game username:</p>
+                            <input class="bg-primary-200 rounded-lg shadow-md outline-none px-6 py-3 w-full"
+                                placeholder="Cap sensitive" id="usernameGC" />
+                            <p class="text-gray-400 text-base">Make sure you have this account email verified to
+                                continue..</p>
+                            <div class="mt-3">
+                                <a onclick="purchaseGc()"
+                                    class="rounded-lg cursor-pointer font-semibold text-primary-400 hover:text-primary-600 duration-300">Continue
+                                    purchase for <b>$1.49</b>&nbsp;<i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <p class="ml-9 mt-5 mb-5 text-gray-400 font-semibold">Press ESC to close</p>
+            </div>
+        </div>
+        <div
+            class="bg-primary-700 bg-contain bg-no-repeat bg-center bg-[url('./public/imgs/surfdude.png')] border-2 border-dashed border-primary-200 py-6 rounded-lg shadow-lg">
+            <div class="backdrop-blur-xl">
+                <p class="text-center text-4xl font-semibold">Surf Dude Shop</p>
+                <hr class="border-primary-200 w-8/12 mx-auto my-5" />
+                <div class="mt-5 flex flex-wrap justify-center mx-auto w-6/12 lg:justify-between">
+                    <div>
+                        <p class="text-center text-3xl text-red-500 font-bold heartbeat">Exclusive Sale!</p>
+                        {% for exclusive in exclusives %}
+                        <div>
+                            <div
+                                class="rounded-xl w-72 m-3 border-2 py-4 px-5 border-dashed border-yellow-700 bg-cover bg-center bg-[url('./public/imgs/items/{{exclusive.img}}.png')]">
+
+                                <p class="text-center font-semibold text-3xl">{{exclusive.name}}</p>
+                                <div class="justify-center flex mt-32 mb-1">
+                                    <a onclick="toggleModal2('{{exclusive.name}}', '{{exclusive.price}}')"
+                                        class="cursor-pointer rounded-xl py-2 px-4 bg-primary-400 duration-300 hover:scale-105 hover:bg-primary-600">Purchase
+                                        for ${{exclusive.price}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="hidden lg:block border-2 rounded-xl h-80 border-gray-300 opacity-60"></div>
+                    <div>
+                        {% for item in stockItems %}
+                        {% if item.stock == 0 %}
+                        <p class="duration-300 text-center text-xl font-semibold">Out of stock till &nbsp;<b
+                                class="duration-300 text-center text-primary-400 text-xl font-semibold"
+                                id="stockcountdown">{{config.stockDate}}</b>
+                        </p>
+                        {% else %}
+                        <p class="duration-300 text-center text-xl font-semibold">{{ item.stock }} Unique in stock
+                            for&nbsp;<b class="duration-300 text-center text-primary-400 text-xl font-semibold"
+                                id="stockcountdown">{{config.stockDate}}</b>
+                        </p>
+                        {% endif %}
+                        <div class="mt-1">
+                            <div
+                                class="rounded-xl w-72 h-60 m-3 border-2 py-4 px-5 border-dashed border-blue-700 bg-center bg-[url('./public/imgs/items/wiki/{{item.img}}.png')]">
+                                <p
+                                    class="text-center font-semibold text-3xl py-1 px-3 bg-primary-400 opacity-90 rounded-xl">
+                                    {{item.name}}</p>
+                                <p
+                                    class="text-center font-semibold text-lg mt-2 opacity-80 py-1 px-3 bg-primary-400 rounded-xl">
+                                    {{item.stats}}</p>
+                                <div class="justify-center flex mt-10 mb-1">
+                                    <a onclick="toggleModal2('{{item.name}}', '{{item.price}}')"
+                                        class="cursor-pointer rounded-xl py-2 px-4 bg-primary-400 duration-300 hover:scale-105 hover:bg-primary-600">Purchase
+                                        for ${{item.price}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr class="border-white-400 w-8/12 mx-auto my-5" />
+                <p class="text-center font-semibold text-4xl font-bold mb-5">Stick Surf Giftcodes Generator</p>
+                <div class="flex flex-wrap items-center justify-center mb-5">
+                    <p class="text-center font-semibold text-lg py-1 px-3 m-1 rounded-xl shadow-md w-fit bg-green-700">
+                        50%
+                        RARE</p>
+                    <p
+                        class="text-center font-semibold text-lg py-1 px-3 m-1 text-black rounded-xl shadow-md w-fit bg-yellow-500">
+                        30%
+                        PREMIUM</p>
+                    <p class="text-center font-semibold text-lg py-1 px-3 m-1 rounded-xl shadow-md w-fit bg-red-600">
+                        20%
+                        DELUXE</p>
+                </div>
+                <div class="flex flex-wrap justify-center mx-auto w-10/12">
+                    {% for i in (1..3) %}
+                    <div onclick="toggleModal3()"
+                        class="rounded-xl w-44 h-32 m-3 border-2 border-gray-600 duration-300 cursor-pointer hover:opacity-70 py-3 border-primary-600 bg-cover bg-center bg-[url('./public/imgs/gc.png')]">
+                    </div>
+                    {% endfor -%}
+                </div>
+                <hr class="border-white-400 w-8/12 mx-auto my-10" />
+                <p class="text-center text-4xl font-semibold">Chests</p>
+                <div class="mt-5 flex flex-wrap justify-center mx-auto">
+                    {% for chest in Chests %}
+                    <div>
+                        <div
+                            class="rounded-xl w-72 m-3 border-2 py-4 px-5 border-dashed border-red-700 bg-cover bg-center bg-[url('./public/imgs/items/{{chest.img}}.png')]">
+
+                            {% if chest.name == "Deluxe Locker Chest" %}
+                                <p class="text-center font-semibold text-2xl">{{chest.name}}</p>
+                            {% else %}
+                            <p class="text-center font-semibold text-3xl">{{chest.name}}</p>
+                            {% endif %}
+                            <div class="justify-center flex mt-32 mb-1">
+                                <a onclick="toggleModal2('{{chest.name}}', '{{chest.price}}')"
+                                    class="cursor-pointer rounded-xl py-2 px-4 bg-primary-400 duration-300 hover:scale-105 hover:bg-primary-600">Purchase
+                                    for ${{chest.price}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="border-primary-200 w-full my-14" />
+
+
+
+    <!-- Blue tokens section -->
+    <div class="flex flex-wrap justify-center mt-10" id="bluecoins">
+        <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+            src="/public/imgs/bluecoins.png" />
+        <p class="flex font-bold text-primary-600 mt-1 text-4xl text-center">Purchase Blue Token</p>
+    </div>
+    <div class="flex flex-wrap justify-center mx-auto my-24 md:w-8/12">
+        <div
+            class="bg-primary-200 m-4 rounded-lg border-2 text-center border-dashed border-primary-400 shadow-md py-6 px-14">
+            <p class="text-6xl font-semibold"><b class="text-gray-400 text-medium text-base">for&nbsp;</b>$1</p>
+            <p class="text-lg text-primary-600 mt-2">100 BT + 10 BT</p>
+            <div class="flex flex-wrap justify-center">
+                <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+                    src="/public/imgs/bluecoins.png" />
+                <p class="flex font-bold text-primary-600 mt-1 text-4xl text-center">110</p>
+            </div>
+            <div class="flex justify-center mt-5">
+                <a onclick="openModel(100, 10, 1)"
+                    class="cursor-pointer rounded-lg shadow-md px-8 py-3 bg-primary-400 hover:bg-primary-600 duration-300">Buy
+                    now!</a>
+            </div>
+        </div>
+        <div
+            class="bg-primary-200 m-4 rounded-lg border-2 text-center border-dashed border-primary-400 shadow-md py-6 px-14">
+            <p class="text-6xl font-semibold"><b class="text-gray-400 text-medium text-base">for&nbsp;</b>$2</p>
+            <p class="text-lg text-primary-600 mt-2">200 BT + 50 BT</p>
+            <div class="flex flex-wrap justify-center">
+                <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+                    src="/public/imgs/bluecoins.png" />
+                <p class="flex font-bold text-primary-600 mt-1 text-4xl text-center">250</p>
+            </div>
+            <div class="flex justify-center mt-5">
+                <a onclick="openModel(200, 50, 2)"
+                    class="cursor-pointer rounded-lg shadow-md px-8 py-3 bg-primary-400 hover:bg-primary-600 duration-300">Buy
+                    now!</a>
+            </div>
+        </div>
+        <div
+            class="bg-primary-200 m-4 rounded-lg border-2 text-center border-dashed border-primary-400 shadow-md py-6 px-14">
+            <p class="text-6xl font-semibold"><b class="text-gray-400 text-medium text-base">for&nbsp;</b>$5</p>
+            <p class="text-lg text-primary-600 mt-2">500 BT + 150 BT</p>
+            <div class="flex flex-wrap justify-center">
+                <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+                    src="/public/imgs/bluecoins.png" />
+                <p class="flex font-bold text-primary-600 mt-1 text-4xl text-center">650</p>
+            </div>
+            <div class="flex justify-center mt-5">
+                <a onclick="openModel(500, 150, 5)"
+                    class="cursor-pointer rounded-lg shadow-md px-8 py-3 bg-primary-400 hover:bg-primary-600 duration-300">Buy
+                    now!</a>
+            </div>
+        </div>
+        <div
+            class="bg-primary-200 m-4 rounded-lg border-2 text-center border-dashed border-primary-400 shadow-md py-6 px-14">
+            <p class="text-6xl font-semibold"><b class="text-gray-400 text-medium text-base">for&nbsp;</b>$10</p>
+            <p class="text-lg text-primary-600 mt-2">1000 BT + 500 BT</p>
+            <div class="flex flex-wrap justify-center">
+                <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+                    src="/public/imgs/bluecoins.png" />
+                <p class="flex font-bold text-primary-600 mt-1 text-4xl text-center">1500</p>
+            </div>
+            <div class="flex justify-center mt-5">
+                <a onclick="openModel(1000, 500, 10)"
+                    class="cursor-pointer rounded-lg shadow-md px-8 py-3 bg-primary-400 hover:bg-primary-600 duration-300">Buy
+                    now!</a>
+            </div>
+        </div>
+        <div
+            class="bg-primary-200 m-4 rounded-lg border-2 text-center border-dashed border-red-400 shadow-md py-6 px-14">
+            <p class="text-6xl font-semibold"><b class="text-gray-400 text-medium text-base">for&nbsp;</b>$25</p>
+            <p class="text-lg text-primary-600 mt-2">2500 BT + 1000 BT</p>
+            <div class="flex flex-wrap justify-center">
+                <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+                    src="/public/imgs/bluecoins.png" />
+                <p class="flex font-bold text-primary-600 mt-1 text-4xl text-center">3500</p>
+            </div>
+            <div class="flex justify-center mt-5">
+                <a onclick="openModel(2500, 1000, 25)"
+                    class="cursor-pointer rounded-lg shadow-md px-8 py-3 bg-primary-400 hover:bg-primary-600 duration-300">Buy
+                    now!</a>
+            </div>
+        </div>
+        <div
+            class="bg-primary-200 m-4 rounded-lg border-2 text-center border-dashed border-red-400 shadow-md py-6 px-14">
+            <p class="text-6xl font-semibold"><b class="text-gray-400 text-medium text-base">for&nbsp;</b>$50</p>
+            <p class="text-lg text-primary-600 mt-2">5000 BT + 2500 BT</p>
+            <div class="flex flex-wrap justify-center">
+                <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+                    src="/public/imgs/bluecoins.png" />
+                <p class="flex font-bold text-primary-600 mt-1 text-4xl text-center">7500</p>
+            </div>
+            <div class="flex justify-center mt-5">
+                <a onclick="openModel(5000, 2500, 50)"
+                    class="cursor-pointer rounded-lg shadow-md px-8 py-3 bg-primary-400 hover:bg-primary-600 duration-300">Buy
+                    now!</a>
+            </div>
+        </div>
+    </div>
+    <!-- Purchase Box for Blue coins-->
+    <div
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex duration-300 items-center justify-center">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-primary-700 md:w-5/12 mx-auto rounded-xl shadow-xl z-50 overflow-y-auto">
+            <div class="modal-content text-white pt-5 text-left px-6">
+                <div class="flex items-center pb-3">
+                    <div class="flex items-center mr-auto">
+                        <img class="rounded-full mr-2 duration-300 drop-show-md h-12 hover:opacity-90 hover:scale-105"
+                            src="/public/imgs/bluecoins.png" />
+                        <p class="text-2xl font-semibold">Purchase Blue Tokens Modal</p>
+                    </div>
+                    <div class="ml-auto flex justify-end mr-2">
+                        <button onclick="closemodal()"
+                            class="modal-close text-red-600 rounded-lg duration-200 hover:text-red-800 text-lg"><i
+                                class="fa-solid fa-x"></i></button>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap mt-5 ml-3">
+                    <div class="justify-content mr-10">
+                        <p class="text-xl font-semibold mb-2">Game username:</p>
+                        <input class="bg-primary-200 rounded-lg shadow-md outline-none px-6 py-3 w-full"
+                            placeholder="Cap sensitive" id="username" />
+                        <p class="text-gray-400 text-base">Make sure you have this account email verified to
+                            continue..</p>
+                        <div class="mt-3">
+                            <a onclick="purchase(Number(document.getElementById('tokens').innerText)+Number(document.getElementById('bonus').innerText))"
+                                class="rounded-lg cursor-pointer font-semibold text-primary-400 hover:text-primary-600 duration-300">Continue
+                                purchase&nbsp;<i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="justify-end ml-auto mr-12 bg-primary-400 rounded-lg w-full md:w-52 shadow-md py-4 px-6">
+                        <p class="text-center text-2xl font-semibold pb-2">Summary</p>
+                        <p><b id="tokens">NaN</b>&nbsp;tokens</p>
+                        <p>+&nbsp;<b id="bonus">NaN</b>&nbsp;tokens</p>
+                        <hr class="border-gray-400 my-3" />
+                        <p>Total: $<b id="price">NaN</b></p>
+                    </div>
+                </div>
+
+            </div>
+            <p class="ml-9 mb-5 text-gray-400 font-semibold">Press ESC to close</p>
+        </div>
+
+    </div>
+
+    </div>
+    <footer>
+        <script src="./public/scripts/shop.js"></script>
+        {% render 'partials/footer.liquid' %}
+    </footer>
+</body>
+
+</html>

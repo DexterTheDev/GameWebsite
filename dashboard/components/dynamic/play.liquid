@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% render 'partials/header.liquid', client: client, user: user %}
+</head>
+
+<body class="bg-primary-100 font-body text-white">
+    {% render 'partials/navbar.liquid', client: client, user: user %}
+
+    <div class="container mx-auto flex md:m-auto md:w-6/12 md:mt-64">
+        <div class="mt-20 text-center lg:text-left mx-auto lg:mx-0">
+            <h1 class="font-bold text-5xl justify-content">Ready to start surfing?</h1>
+            <div class="mt-7">
+                <a href="/public/game/StickSurfLauncher.zip" download
+                    class="bg-primary-400 hover:bg-primary-600 rounded-lg py-2 px-8 border-2 m-2 border-dashed border-blue-800 shadow-lg duration-300 font-semibold text-2xl text-white">Download</a>
+                <a href="/mobile" 
+                    class="bg-primary-400 hover:bg-primary-600 rounded-lg py-2 px-8 border-2 border-dashed border-blue-800 shadow-lg duration-300 font-semibold text-2xl text-white">Mobile</a>
+            </div>
+        </div>
+        <div class="hidden lg:block ml-auto">
+            <img class="mt-auto w-72 h-72 rounded-full" src="/public/imgs/cr.png">
+        </div>
+    </div>
+    <footer>
+        <div class="flex justify-center my-4">
+            <img class="rounded-full duration-300 drop-show-md h-10 hover:opacity-90 hover:scale-105"
+                src="/public/imgs/logo.png" />
+            <p class="font-bold justify-content text-white mt-3"><b class="text-sm font-bold text-gray-500">©️ 2023</b>
+            </p>
+        </div>
+        <script src="/public/scripts/tailwind.config.js"></script>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% render 'partials/header.liquid' %}
+    <link rel="stylesheet" type="text/css" href="public/styles/dd.css" />
+    <script src="public/scripts/dd.min.js"></script>
+</head>
+
+<body class="bg-primary-100 font-body text-white" onload="startLogging()">
+    {% render 'partials/navbar.liquid' %}
+    <div class="w-11/12 md:w-8/12 mx-auto">
+        <div class="flex flex-wrap justify-center mt-10">
+            <img class=" mr-2 duration-300 drop-show-md md:h-24 hover:opacity-90 hover:scale-105"
+                src="/public/imgs/Stick-Surf-Casino.png" />
+        </div>
+        {% if logged %}
+        <div class="mx-auto justify-center flex">
+            <div
+                class="bg-center bg-[url('./public/imgs/logo.png')] bg-contain bg-no-repeat w-full md:w-6/12 rounded-xl border-2 border-dashed my-5">
+                <div class="backdrop-blur-md py-6 px-5 rounded-xl">
+                    <div class="ml-auto float-right -translate-y-3">
+                        <a class="duration-300 cursor-pointer text-red-600 font-semibold hover:text-red-800"
+                            onclick="login('out')"><i class="fa-solid fa-door-open"></i>&nbsp;Logout</a>
+                    </div>
+                    <p class="font-semibold text-2xl">{{ user.username }}</p>
+                    <a class="ease-out flex duration-300 items-center font-semibold hover:text-gray-300 mt-3"
+                        href="/pricing#bluecoins"><img class="h-5" src="/public/imgs/bluecoins.png">&nbsp;<b
+                            id="bluecoins">{{ user.bts
+                            }}</b></a>
+                    <p class="flex items-center items-center font-semibold mt-3"><img class="h-5"
+                            src="/public/imgs/surfdude.png">&nbsp;<b class="text-primary-500" id="itemsLength">{{
+                            user.itemsLength
+                            }}</b>&nbsp;Total Items You've got.</p>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-10 mb-4 border-primary-500 w-full" />
+        <p class="text-xl md:text-3xl font-semibold">Convert your items into bts</p>
+        <div class="md:flex mb-14">
+            <div>
+                <p class="text-primary-400 text-lg md:text-2xl mb-4">Click convert next to the item to begin the process
+                </p>
+                <div class="max-h-72 overflow-auto mb-5 md:mb-0" id="itemsList">
+                    {% for item in user.items %}
+                    <div id="{{ item.id }}" class="bg-primary-200 rounded-xl my-1 py-3 px-6 w-full flex items-center">
+                        <img class="w-18 h-16" src="public/imgs/items/wiki/{{ item.id }}.png" />
+                        <div>
+                            <p class="text-md font-semibold">{{ item.name }}</p>
+                            <div class="flex flex-wrap mt-2">
+                                {% if item.type == "premium" %}
+                                <p class="rounded-xl text-black py-1 px-3 bg-[#C9C900] font-bold w-fit mr-2">{{
+                                    item.type }}</p>
+                                {% elsif item.type == "rare" %}
+                                <p class="rounded-xl py-1 px-3 bg-[#466901] font-bold w-fit mr-2">{{ item.type }}</p>
+                                {% elsif item.type == "legacy" %}
+                                <p class="rounded-xl py-1 px-3 bg-purple-600 font-bold w-fit mr-2">{{ item.type }}</p>
+                                {% elsif item.type == "deluxe" %}
+                                <p class="rounded-xl py-1 px-3 bg-red-600 font-bold w-fit mr-2">{{ item.type }}</p>
+                                {% elsif item.type == "unique" %}
+                                <p class="rounded-xl py-1 px-3 bg-[#0099FF] font-bold w-fit mr-2">{{ item.type }}</p>
+                                {% elsif item.type == "normal" %}
+                                <p class="rounded-xl py-1 px-3 bg-gray-600 font-bold w-fit mr-2">{{ item.type }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="ml-auto flex justify-end">
+                            <a name="convertor" onclick="convert('{{ item.id }}')"
+                                class="cursor-pointer rounded-xl py-2 font-semibold text-lg px-10 bg-primary-400 duration-300 hover:scale-105 hover:bg-primary-600">Convert</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>You don't have any items to convert</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="ml-auto md:flex md:justify-end">
+                <div
+                    class="md:flex md:flex-wrap bg-primary-700 rounded-lg py-5 px-4 shadow-md border-dashed border h-96 md:h-auto">
+                    <div class="justify-end float-right text-xl">
+                        <p class="text-3xl font-bold mb-4 text-primary-400 ">Item Prices Convert List</p>
+                        <p class="text-green-600 flex items-center">Rare items&nbsp;<i
+                                class="fa-solid fa-arrow-right"></i>&nbsp; <a
+                                class="flex duration-100 items-center font-semibold hover:text-gray-300"
+                                href="/pricing#bluecoins"><img class="h-5" src="/public/imgs/bluecoins.png">&nbsp;<b>30
+                                    bc</a>
+                        </p>
+                        <p class="text-yellow-300 flex items-center">Prem items&nbsp;<i
+                                class="fa-solid fa-arrow-right"></i>&nbsp; <a
+                                class="flex duration-100 items-center font-semibold hover:text-gray-300"
+                                href="/pricing#bluecoins"><img class="h-5" src="/public/imgs/bluecoins.png">&nbsp;<b>50
+                                    bc</a>
+                        </p>
+                        <p class="text-purple-700 flex items-center">Legacy items&nbsp;<i
+                                class="fa-solid fa-arrow-right"></i>&nbsp; <a
+                                class="flex duration-100 items-center font-semibold hover:text-gray-300"
+                                href="/pricing#bluecoins"><img class="h-5" src="/public/imgs/bluecoins.png">&nbsp;<b>300
+                                    bc</a>
+                        </p>
+                        <p class="text-red-700 flex items-center">Deluxe items&nbsp;<i
+                                class="fa-solid fa-arrow-right"></i>&nbsp; <a
+                                class="flex duration-100 items-center font-semibold hover:text-gray-300"
+                                href="/pricing#bluecoins"><img class="h-5" src="/public/imgs/bluecoins.png">&nbsp;<b>850
+                                    bc</a>
+                        </p>
+                        <p class="text-cyan-400 flex items-center">Unique items&nbsp;<i
+                                class="fa-solid fa-arrow-right"></i>&nbsp; <a
+                                class="flex duration-100 items-center font-semibold hover:text-gray-300"
+                                href="/pricing#bluecoins"><img class="h-5"
+                                    src="/public/imgs/bluecoins.png">&nbsp;<b>5500 bc</a>
+                        </p>
+                        <p class="text-gray-400 flex items-center"><b class="text-4xl mb-4">Or</b>&nbsp;Click the below
+                            button to buy bc</a>
+                        <div class="mx-auto flex justify-center">
+                            <a href="/pricing#bluecoins"
+                                class="cursor-pointer rounded-xl py-2 flex items-center font-semibold text-lg px-10 bg-primary-300 duration-300 hover:scale-105 hover:bg-primary-600"><img
+                                    class="h-5" src="/public/imgs/bluecoins.png">&nbsp;<b>Buy now</a></a>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-10 mb-4 border-primary-500 w-full" />
+        <p class="text-lg md:text-3xl font-bold text-center text-primary-400 mt-5">Gamble your bluecoins for more
+            bluecoins or even items!</p>
+        <div class="md:flex md:flex-wrap justify-center my-5">
+            <div class="w-full md:w-4/12">
+                <div id="bcBox"
+                    class="bg-primary-700 rounded-xl border-primary-400 border w-full border-dashed py-5 px-4 shadow-md ">
+                    <p class="md:flex items-center text-xl">Start Gambling&nbsp;<a
+                            class="flex duration-100 text-primary-400 items-center font-semibold hover:text-gray-300"
+                            href="/pricing#bluecoins"><img class="h-5" src="/public/imgs/bluecoins.png">&nbsp;<b>Blue
+                                Coins</a>
+                    </p>
+                    <input id="betCoins" class="bg-primary-300 rounded-xl shadow-xl outline-none py-3 px-4 my-3 w-full"
+                        type="number" min="20" max="1000" placeholder="Minimum 20, Maximum 1000" />
+                    <p class="text-gray-400 flex items-center"><b class="text-4xl mb-4">Tail</b>&nbsp;is your bet..</a>
+                    <div class="mx-auto flex justify-center">
+                        <a onclick="gamblebc()"
+                            class="cursor-pointer rounded-xl py-2 flex items-center font-semibold text-lg px-10 bg-primary-300 duration-300 hover:scale-105 hover:bg-primary-600"><i
+                                class="fa-solid fa-coins"></i>&nbsp;Flip the coin!</a></a>
+                        <div>
+                            <div
+                                class="pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                <div class="popup w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
+                                    <div class="popup-inside">
+                                        <div class="backgrounds">
+                                            <div class="background"></div>
+                                            <div class="background background2"></div>
+                                            <div class="background background3"></div>
+                                            <div class="background background4"></div>
+                                            <div class="background background5"></div>
+                                            <div class="background background6"></div>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="content-wrapper text-primary-400">
+                                            <img class="w-24 h-20 mt-14" id="betItem" />
+                                            <div class="max-w-44">
+                                                <p class="text-lg heartbeat scale-110" id="bcMsg">Bet MSG</p>
+                                                <p class="text-lg font-bold w-44" id="betAmount"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end md:ml-5">
+                <div id="itemsGambleBox"
+                    class="bg-primary-700 rounded-lg border-primary-400 border border-dashed  shadow-lg py-[6px] px-4 mt-2 md:mt-0">
+                    <p class="text-center text-xl font-semiboldbold my-2"><b
+                            class="font-bold text-primary-400 text-3xl">Rates<b class="text-xl">&nbsp;<b
+                                    class="text-md text-green-700">50%</b> <b class="text-md text-yellow-400">40%</b> <b
+                                    class="text-md text-purple-700">30%</b> <b
+                                    class="text-md text-red-700">10%</b></b></b>&nbsp;/ Gamble your BlueCoins now for
+                        items!</p>
+                    <div class="md:flex md:flex-wrap">
+                        <div class="py-3 px-4">
+                            <div class="mx-auto flex justify-center">
+                                <img class="w-24 w-20 ml-1" src="/public/imgs/items/wiki/rarescratch.png">
+                            </div>
+                            <p class="text-lg text-center text-green-700">Rare Scratch</p>
+                            <div class="mx-auto flex justify-center">
+                                <a onclick="gambleItem('rare')"
+                                    class="cursor-pointer rounded-xl text-sm flex items-center py-2 font-bold px-4 bg-green-700 duration-300 hover:scale-105 hover:bg-green-900">Gamble
+                                    for 50&nbsp;<img class="h-5" src="/public/imgs/bluecoins.png"></a></a>
+                            </div>
+                        </div>
+                        <div class="py-3 px-4">
+                            <div class="mx-auto flex justify-center">
+                                <img class="w-24 w-20 ml-1" src="/public/imgs/items/wiki/premiumscratch.png">
+                            </div>
+                            <p class="text-lg text-center text-yellow-400">Premium Scratch</p>
+                            <div class="mx-auto flex justify-center">
+                                <a onclick="gambleItem('premium')"
+                                    class="cursor-pointer rounded-xl text-sm flex items-center font-bold py-2 px-4 bg-yellow-400 duration-300 hover:scale-105 text-black hover:bg-yellow-500">Gamble
+                                    for 75&nbsp;<img class="h-5" src="/public/imgs/bluecoins.png"></a></a></a>
+                            </div>
+                        </div>
+                        <div class="py-3 px-4">
+                            <div class="mx-auto flex justify-center">
+                                <img class="w-24 w-20 ml-1" src="/public/imgs/items/wiki/legacyscratch.png">
+                            </div>
+                            <p class="text-lg text-center text-purple-500">Legacy Scratch</p>
+                            <div class="mx-auto flex justify-center">
+                                <a onclick="gambleItem('legacy')"
+                                    class="cursor-pointer rounded-xl text-sm flex items-center font-bold py-2 px-4 bg-purple-600 duration-300 hover:scale-105 hover:bg-purple-800">Gamble
+                                    for 400&nbsp;<img class="h-5" src="/public/imgs/bluecoins.png"></a></a></a>
+                            </div>
+                        </div>
+                        <div class="py-3 px-4">
+                            <div class="mx-auto flex justify-center">
+                                <img class="w-24 w-20 ml-1" src="/public/imgs/items/wiki/deluxescratch.png">
+                            </div>
+                            <p class="text-lg text-center text-red-500">Deluxe Scratch</p>
+                            <div class="mx-auto flex justify-center">
+                                <a onclick="gambleItem('deluxe')"
+                                    class="cursor-pointer rounded-xl text-sm flex items-center font-bold py-2 px-4 bg-red-600 duration-300 hover:scale-105 hover:bg-red-800">Gamble
+                                    for 1500&nbsp;<img class="h-5" src="/public/imgs/bluecoins.png"></a></a></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="w-full border-primary-500 my-10">
+        <div class="flex flex-wrap justify-center my-10">
+            <img class=" mr-2 duration-300 drop-show-md md:h-24 hover:opacity-90 hover:scale-105"
+                src="/public/imgs/Recent-Bets.png" />
+        </div>
+        <div id="bets" class="mb-10">
+            <div class="loader mx-auto items-center flex md:my-20 p-[23px]"></div>
+        </div>
+        {% else %}
+        <div class="flex flex-wrap justify-center my-16" id="login">
+            <div
+                class="bg-contain bg-no-repeat bg-center bg-[url('./public/imgs/logo.png')] rounded-xl md:w-6/12 w-full shadow-lg border-dashed border-2 ">
+                <div class="backdrop-blur-md py-6 px-5 rounded-xl">
+                    <p class="text-xl font-semibold text-center">Login using sticksurf credentials</p>
+                    <p id="errorAlert" class="text-md text-red-600 font-semibold text-center hidden"></p>
+                    <hr class="w-8/12 mx-auto my-3 border-primary-200">
+                    <input id="username"
+                        class="mx-auto flex bg-primary-300 md:w-6/12 rounded-2xl outline-none hover:scale-105 duration-300 shadow-lg py-2 px-3 my-2"
+                        placeholder="Username" />
+                    <input id="password"
+                        class="mx-auto flex bg-primary-300 md:w-6/12 rounded-2xl shadow-lg outline-none hover:scale-105 duration-300 py-2 px-3 my-2"
+                        type="password" placeholder="Password" />
+                    <div class="justify-center flex">
+                        <a onclick="login()"
+                            class="cursor-pointer rounded-xl py-2 font-semibold text-lg mt-3 px-10 bg-primary-400 duration-300 hover:scale-105 hover:bg-primary-600">Login</a>
+                    </div>
+                </div>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+    <footer>
+        <script src="./public/scripts/casino.js"></script>
+        {% render 'partials/footer.liquid' %}
+    </footer>
+</body>
+
+</html>

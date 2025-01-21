@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="scroll-smooth">
+
+<head>
+    {% render 'partials/header.liquid', client: client, user: user %}
+</head>
+
+<body class="bg-primary-100 font-body text-white">
+    {% render 'partials/navbar.liquid', client: client, user: user, admin: admin %}
+    <div class="mx-auto container flex md:m-auto md:mt-24">
+        <div class="text-center lg:text-left mx-auto lg:mx-0 mt-14">
+            <h1 class="font-bold text-4xl md:text-6xl justify-content ">A BIGGER & BETTER WAVE RIDING ADVENTURE!</h1>
+             <h1 class="font-semibold text-lg md:hidden justify-content text-primary-400">Owned by Matt & Revived By Kota</h1>
+            <div
+                class="font-extrabold mx-16 md:mx-auto text-lg md:text-2xl [text-wrap:balance] bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 to-50% to-slate-200">
+                <span
+                    class="hidden text-primary-400 inline-flex flex-col md:block h-[calc(theme(fontSize.2xl)*theme(lineHeight.tight))] overflow-hidden">
+                    <ul class="block animate-text-slide-5 text-left leading-tight [&_li]:block">
+                        <li>Get ready to catch a wave of excitement</li>
+                        <li>Build your clan from scratch, recruit surfers and unlock unique rewards</li>
+                        <li>Login in daily to collect rewards</li>
+                        <li>Become the coolest looking surfer around with our inventory system</li>
+                        <li>Trade items you have gained with other players from around the world</li>
+                        <li aria-hidden="true">Get ready to catch a wave of excitement</li>
+                    </ul>
+                </span>
+            </div>
+            <div>
+            </div>
+        </div>
+        <div class="hidden lg:block ml-auto">
+            <img class="mt-auto w-80 rounded-full" src="/public/imgs/cr.png">
+        </div>
+    </div>
+    <hr class="mx-auto w-8/12 mt-24 mb-10 border-primary-200" />
+    <div class="w-10/12 mx-auto container">
+        <p class="text-center font-semibold text-3xl md:text-6xl">Let's Surf!</p>
+        <div class="md:flex md:flex-wrap justify-center my-14">
+
+            <div class="md:w-3/12 hover:scale-105 duration-300 m-3">
+                <img class="mt-auto" src="/public/imgs/symbol-1.png">
+                <p class="mt-3 font-semibold text-lg text-center md:text-left">Play alone and ride the waves of stick surf as you dodge waves and
+                    gain
+                    XP, Collect coins and reach new highscores!</p>
+            </div>
+            <div class="md:w-3/12 hover:scale-105 duration-300 m-3">
+                <img class="mt-auto" src="/public/imgs/symbol-2.png">
+                <p class="mt-3 font-semibold text-lg text-center md:text-left">Play with friends in our online multiplayer mode. Dodge waves
+                    together & discover who is the better surfer. Will you be the king of the wave or will you drown and
+                    be left behind?</p>
+            </div>
+            <div class="md:w-3/12 hover:scale-105 duration-300 m-3">
+                <img class="mt-auto" src="/public/imgs/symbol-3.png">
+                <p class="mt-3 font-semibold text-lg text-center md:text-left">Trade items you have gained with other players from around the
+                    world. Make your surfer the coolest looking stick across the sea. The real time trading lobbys are
+                    where the pro players are at.</p>
+            </div>
+            <div class="md:w-3/12 hover:scale-105 duration-300 m-3">
+                <img class="mt-auto" src="/public/imgs/symbol-4.png">
+                <p class="mt-3 font-semibold text-lg text-center md:text-left">Build your clan from scratch, recruit surfers and unlock unique
+                    rewards. Level up your clan to reach new highs. Earn your way to the top through our advanced clan
+                    system.</p>
+            </div>
+            <div class="md:w-3/12 hover:scale-105 duration-300 m-3">
+                <img class="mt-auto" src="/public/imgs/symbol-5.png">
+                <p class="mt-3 font-semibold text-lg text-center md:text-left">Login in daily to collect rewards, these rewards can be traded in
+                    the marketplaces for other items, or rock them in style!</p>
+            </div>
+            <div class="md:w-3/12 hover:scale-105 duration-300 m-3">
+                <img class="mt-auto" src="/public/imgs/symbol-6.png">
+                <p class="mt-3 font-semibold text-lg text-center md:text-left">Become the coolest looking surfer around with our inventory
+                    system, here you can see all your items you have collected and choose which ones to rock!</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        {% render 'partials/footer.liquid', client: client %}
+    </footer>
+</body>
+
+</html>

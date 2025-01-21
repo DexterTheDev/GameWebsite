@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% render 'partials/header.liquid', client: client, user: user %}
+</head>
+
+<body class="bg-primary-100 font-body text-black">
+    <p class="text-center text-5xl my-4 font-semibold">Flash Player Only!</p>
+    <div class="container mx-auto flex md:m-auto md:w-6/12 md:mt-64">
+    <object type="application/x-shockwave-flash" width="680px" height="515px"> 
+    <param name="movie" id="game" value="/public/game/stick-surf.swf"></param> 
+    <param name="wmode" value="opaque"></param> 
+    <script> 
+
+    var displayContainer = document.getElementById("game"); 
+    var flash = createSWFObject(urlString, 'opaque', 650, 650); 
+    displayContainer.appendChild(flash); 
+}
+function createSWFObject(urlString, wmodeString, width, height){ 
+    var SWFObject = document.createElement("object"); 
+    SWFObject.setAttribute("type","application/x-shockwave-flash"); 
+    SWFObject.setAttribute("width","100%"); 
+    SWFObject.setAttribute("height","100%"); 
+    var movieParam = document.createElement("param"); 
+    movieParam.setAttribute("name","movie"); 
+    movieParam.setAttribute("value",urlString); 
+    SWFObject.appendChild(movieParam); 
+    var wmodeParam = document.createElement("param"); 
+    wmodeParam.setAttribute("name","wmode"); 
+    wmodeParam.setAttribute("value",wmodeString); 
+    SWFObject.appendChild(wmodeParam);      
+    return SWFObject; 
+} 
+</script>
+</object>
+    </div>
+        <p class="text-center text-xl my-4 font-semibold">v1.3.2</p>
+</body>
+
+</html>

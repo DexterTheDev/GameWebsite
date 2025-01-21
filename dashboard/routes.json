@@ -1,0 +1,21 @@
+[
+  "./routes/route[get]/index.js",
+  "./routes/route[get]/dynamic/pricing/index.js",
+  "./routes/route[get]/dynamic/pricing/purchaseItem.js",
+  "./routes/route[get]/dynamic/pricing/purchaseBT.js",
+  "./routes/route[get]/dynamic/pricing/purchaseGC.js",
+  "./routes/route[get]/dynamic/team.js",
+  "./routes/route[get]/dynamic/wiki.js",
+  "./routes/route[get]/dynamic/casinologs.js",
+  "./routes/route[get]/dynamic/play.js",
+  "./routes/route[get]/dynamic/mobile.js",
+  "./routes/route[get]/dynamic/support.js",
+  "./routes/route[get]/dynamic/casino.js",
+  "./routes/route[post]/dynamic/casino/login.js",
+  "./routes/route[post]/dynamic/casino/convert.js",
+  "./routes/route[post]/dynamic/casino/gambleBC.js",
+  "./routes/route[post]/dynamic/casino/gambleItem.js",
+  "./routes/route[post]/dynamic/purchaseItem.js",
+  "./routes/route[post]/dynamic/purchaseBT.js",
+  "./routes/route[post]/dynamic/purchaseGC.js"
+]
